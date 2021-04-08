@@ -1,0 +1,71 @@
+
+
+#include "test_keypair.h"
+
+#include "run_config.h"
+
+#if defined(_STM32F4_)
+
+const uint32_t * get_test_pk()
+{
+  return 0;
+}
+
+#else
+
+static
+const uint32_t __pk[] =
+{
+#include "pk.txt"
+};
+
+const uint32_t * get_test_pk()
+{
+  return __pk;
+}
+
+#endif
+
+
+static
+const uint32_t __sk[] =
+{
+#include "sk.txt"
+};
+
+const uint32_t * get_test_sk()
+{
+  return __sk;
+}
+
+
+
+static
+const uint32_t __c[] =
+{
+0xd0ab5fa9,0xe904d7de,0xbe3e0ea1,0x54755798, 0xd4fa8077,0xfbd33454,0x5a171efa,0x80ac017c,
+0x5a1fa15b,0x4f7bbd81,0xf2d98aad,0x283cd823, 0x580e7263,0x547e23b5,0x8aebb604,0xa32486e7,
+0x4e53a63b,0x948917d7,0x7a8e5a46,0xb051ecf5, 0x70ff5703,0x2ff4f185,0x16f713d0,0xfaa401f6,
+0xaaf0f67d,0xf05ed1d7,0xb3bec3d6,0x6a6540fd, 0xe129daa3,0x71fd5ad1,0x4ab00879,0x26a57b37,
+0x16419610,0xafef4147,0xa8290ef7,0x848112ce, 0xa191f792,0xacbc6af9,0x010ea78f,0xf1e09838,
+0x7a77e753,0x9888c5a4,0x7a57a359,0xfb8e7788, 0x95e2c5ed,0x0e99debb,0xea693eeb,0x6d735280,
+0x16366dc6,0x28796f05,0x6d9c1e6f,0x9aad6d3f, 0x50d14d04,0xaaddeedc,0xc2cc77e3,0x641922d2,
+0xd95d2de3,0xbc9e38bd,0x19bdf8ad,0xbf7c0911,
+};
+
+const uint8_t * get_test_ciphertext()
+{
+  return (const uint8_t *)__c;
+}
+
+
+static
+const uint32_t __k[] =
+{
+0xd70a43e3,0xf4a42b7b,0x0566a850,0x66a62862, 0xb2dadff6,0x6e81f9d4,0xba8a80cf,0x242652ad
+};
+
+const uint8_t * get_test_sharedkey()
+{
+  return (const uint8_t *)__k;
+}
