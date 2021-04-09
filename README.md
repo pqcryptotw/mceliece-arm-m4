@@ -1,14 +1,21 @@
 # Classic McEliece implementation for ARM-Cortex M4
 
-
-## There are 4 directories w.r.t. 4 parameters of Classic McEliece:
-- **u32_n3488_t64**: mceliece n3488 t64
-- **u32_n4608_t96**: mceliece n4608 t96
-- **u32_n6688_t128**: mceliece n6688 t128
-- **u32_n8192_t128**: mceliece n8192 t128
+This is an implementation of Classic McEliece KEM based on the work of
+`` M.-S. Chen and T. Chou, Classic McEliece on the ARM Cortex-M4, To appear, TCHES-2021-3 ''.
 
 
-- For key-generation with f parameters, please edit the macro //#define _F_PARAM_ in *imple*/src/run_config.h
+## Licence
+
+All implementations are public domain.
+
+
+## Contents
+
+There are 4 directories w.r.t. following parameters of Classic McEliece:
+- **u32_n3488_t64**: **mceliecen348864**(Default) and **mceliece348864f**. To use **f**-parameter(faster key-generation), please add a macro **_F_PARAM_** in file src/run_config.h.
+- **u32_n4608_t96**: **mceliecen660896**(Default) and **mceliece460896f**. To use **f**-parameter(faster key-generation), please add a macro **_F_PARAM_** in file src/run_config.h.
+- **u32_n6688_t128**: **mceliecen6688128**(Default) and **mceliece6688128f**. To use **f**-parameter(faster key-generation), please add a macro **_F_PARAM_** in file src/run_config.h.
+- **u32_n8192_t128**: **mceliecen8192128**(Default) and **mceliece8192128f**. To use **f**-parameter(faster key-generation), please add a macro **_F_PARAM_** in file src/run_config.h.
 
 
   All implementations contain a KEM function tester in *imple*/unit-test/test.c .  
@@ -16,6 +23,19 @@
   'make'  
   in each directory under the Gnu C development environment, it will test
   the functionality and correctness of key-generation, encapsulation, and decapsulation.  
+
+## Restrictions
+
+Due to lack of storage for public key(PK) in M4 devices, 
+running functionalities related to PK may not be possible for devices with smaller memory the PK.
+
+
+We benchmark the implementation on the device of stm32f4-discovery with 192-KB SRAM and 1-MB flash.
+The available functionalities are :
+- **mceliecen348864** and **mceliece348864f** : Key-generation, encapsulation, and decapsulation.
+- **mceliecen460896** : Encapsulation, and decapsulation.
+- **mceliecen6688128** : Decapsulation.
+- **mceliecen8192128** : Decapsulation.
 
 
 

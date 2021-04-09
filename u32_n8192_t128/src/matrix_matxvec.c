@@ -30,11 +30,6 @@ void matxvec_madd_1248x3360_asm(unsigned char *c, const unsigned char *mat, cons
 
 void gf2_mat_madd(unsigned char *c, const unsigned char *mat, unsigned w_mat, unsigned h_mat, const unsigned char *a)
 {
-#ifdef _M4_ASM_
-	if( (768==h_mat) && (340==w_mat) ) return matxvec_madd_768x2720_asm(c,mat,a);
-	if( (1248==h_mat) && (420==w_mat) ) return matxvec_madd_1248x3360_asm(c,mat,a);
-#endif
-
 	if( 0 == (h_mat&3) ) return gf2_mat_madd_x4(c,mat,w_mat,h_mat,a);
 	if( 0 == (h_mat&1) ) return gf2_mat_madd_x2(c,mat,w_mat,h_mat,a);
 

@@ -35,7 +35,7 @@ static void printcycles(const char *s, unsigned long long c)
 #include "flashwrite.h"
 #endif
 
-#define NUM_KEYGEN  10
+#define NUM_KEYGEN  100
 
 int main(void)
 {

@@ -3,6 +3,7 @@
 
 #if defined(STM32F4)
 
+#define _STM32F4_
 #define _M4_ASM_
 
 #endif
