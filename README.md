@@ -6,16 +6,16 @@ This is an implementation of Classic McEliece KEM based on the work of
 
 ## Licence
 
-All implementations are public domain.
+All implementations are in the public domain.
 
 
 ## Contents
 
 There are 4 directories w.r.t. following parameters of Classic McEliece:
-- **u32_n3488_t64**: **mceliecen348864**(Default) and **mceliece348864f**. To use **f**-parameter(faster key-generation), please add a macro **_F_PARAM_** in file src/run_config.h.
-- **u32_n4608_t96**: **mceliecen660896**(Default) and **mceliece460896f**. To use **f**-parameter(faster key-generation), please add a macro **_F_PARAM_** in file src/run_config.h.
-- **u32_n6688_t128**: **mceliecen6688128**(Default) and **mceliece6688128f**. To use **f**-parameter(faster key-generation), please add a macro **_F_PARAM_** in file src/run_config.h.
-- **u32_n8192_t128**: **mceliecen8192128**(Default) and **mceliece8192128f**. To use **f**-parameter(faster key-generation), please add a macro **_F_PARAM_** in file src/run_config.h.
+- **u32_n3488_t64**: **mceliecen348864**(Default) and **mceliece348864f**. (Edit **_F_PARAM_** in file src/run_config.h for the **f**-parameter.)
+- **u32_n4608_t96**: **mceliecen660896**(Default) and **mceliece460896f**. 
+- **u32_n6688_t128**: **mceliecen6688128**(Default) and **mceliece6688128f**. 
+- **u32_n8192_t128**: **mceliecen8192128**(Default) and **mceliece8192128f**. 
 
 
   All implementations contain a KEM function tester in *imple*/unit-test/test.c .  
@@ -24,18 +24,18 @@ There are 4 directories w.r.t. following parameters of Classic McEliece:
   in each directory under the Gnu C development environment, it will test
   the functionality and correctness of key-generation, encapsulation, and decapsulation.  
 
-## Restrictions
+## Supported operations on stm32f4-discovery
 
-Due to lack of storage for public key(PK) in M4 devices, 
-running functionalities related to PK may not be possible for devices with smaller memory the PK.
+ Since most M4 devices do not have enough storage for PK of Classic McEliece,
+ some functionalities are not supported for for devices without storage for PK.
 
 
 We benchmark the implementation on the device of stm32f4-discovery with 192-KB SRAM and 1-MB flash.
-The available functionalities are :
+The available functionalities on the board are :
 - **mceliecen348864** and **mceliece348864f** : Key-generation, encapsulation, and decapsulation.
-- **mceliecen460896** : Encapsulation, and decapsulation.
-- **mceliecen6688128** : Decapsulation.
-- **mceliecen8192128** : Decapsulation.
+- **mceliecen460896** and **mceliece4460896f** : Encapsulation, and decapsulation.
+- **mceliecen6688128** and **mceliece6688128f** : Decapsulation.
+- **mceliecen8192128** and **mceliece8192128f** : Decapsulation.
 
 
 
@@ -47,12 +47,23 @@ The followings are the instructions for testing:
 
 - Download/Install pqm4. https://github.com/mupq/pqm4
 
+
 - Setup your stm32f4-discovery device (connect USB, setup terminal, etc.)
 
+
 - Execute 'pyton3 copy_files_to_pqm4.py *path_to_pqm4*' for copying files to **PQM4** directory.  
-  It does:  
+  It will build following directories under pqm4/crypto_kem/ for benchmarking various functionalities.
+  1. mc348864fkeygen/ : for benchmarking the key-generation of **mceliece348864f**. The PK is stored in the flash disk.
+  2. mc348864keygen/ : for benchmarking the key-generation of **mceliece348864**. The PK is stored in the flash disk.
+  3. mc348864/ : for benchmarking encapsulation and decapsulation of **mceliece348864** with test key pairs.
+  4. mc460896/ : for benchmarking encapsulation and decapsulation of **mceliece460896** with test key pairs.
+  5. mc6688128/ : for benchmarking encapsulation and decapsulation of **mceliece6688128** with test key pairs.
+  6. mc8192128/ : for benchmarking encapsulation and decapsulation of **mceliece8192128** with test key pairs.
+
+
+- Manual copying files (Optional)
   1. Copy various testers (in the directory *param*/pqm4tester) to your **PQM4** directory ( assuming in ~/pqm4 ):  
-  'cp pqm4tester/* ~/pqm4/mupq/crypto_kem/'  
+    'cp pqm4tester/* ~/pqm4/mupq/crypto_kem/'  
 
   2. Create a working directory and copy files :  
     a). Testing key-generation  
@@ -65,6 +76,13 @@ The followings are the instructions for testing:
     'mkdir ~/pqm4/crypto_kem/mc348864'  
     'cp u32_n3488_t64/src/* ~/pqm4/crypto_kem/mc348864/'  
     'cp u32_n3488_t64/testkeypair/* ~/pqm4/crypto_kem/mc348864/'   <-- test key pair
+     Edit 'pqm4/crypto_kem/mc348864/run_config.h'. Turn off the *_PK_IN_FLASH_* macro.
+
+    c). Testing with test keypair  
+    'mkdir ~/pqm4/crypto_kem/mc348864keygen'  
+    'cp u32_n3488_t64/src/* ~/pqm4/crypto_kem/mc348864keygen/'  
+    'cp u32_n3488_t64/stm32f4flashtool/* ~/pqm4/crypto_kem/mc348864keygen/'   <-- flash tools for stm32f4-discovery
+    'cp u32_n3488_t64/stm32f4flashtool/ld_script_for_flash.ld ~/pqm4/ldscripts/mc348864keygen.ld'  <-- link script for allocating flash disk
 
 
 - Generate binary(.bin) file for flashing  wrt various benchmarking scenarios:  
