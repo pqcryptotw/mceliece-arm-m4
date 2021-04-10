@@ -60,8 +60,8 @@ The followings are the instructions for testing:
   2. mc348864keygen/ : for benchmarking the key-generation of **mceliece348864**. The PK is stored in the flash disk.
   3. mc348864/ : for benchmarking encapsulation and decapsulation of **mceliece348864** with test key pairs.
   4. mc460896/ : for benchmarking encapsulation and decapsulation of **mceliece460896** with test key pairs.
-  5. mc6688128/ : for benchmarking encapsulation and decapsulation of **mceliece6688128** with test key pairs.
-  6. mc8192128/ : for benchmarking encapsulation and decapsulation of **mceliece8192128** with test key pairs.
+  5. mc6688128/ : for benchmarking decapsulation of **mceliece6688128** with test key pairs.
+  6. mc8192128/ : for benchmarking decapsulation of **mceliece8192128** with test key pairs.
 
 
 - Manual copying files (Optional)
