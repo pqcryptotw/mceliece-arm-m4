@@ -1,8 +1,11 @@
 # Classic McEliece implementation for ARM-Cortex M4
 
-This is an implementation of Classic McEliece KEM based on the work of
-`` M.-S. Chen and T. Chou, Classic McEliece on the ARM Cortex-M4, To appear, TCHES-2021-3 ''.
+This is an implementation of Classic McEliece based on the CHES 2021 paper
+``Classic McEliece on the ARM Cortex-M4''.
 
+## Authors
+
+Ming-Shing Chen, Tung Chou
 
 ## Licence
 
