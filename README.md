@@ -15,7 +15,7 @@ All implementations are in the public domain.
 ## Contents
 
 There are 4 directories w.r.t. following parameters of Classic McEliece:
-- **u32_n3488_t64**: **mceliecen348864**(Default) and **mceliece348864f**. (Edit **_F_PARAM_** in file src/run_config.h for the **f**-parameter.)
+- **u32_n3488_t64**: **mceliecen348864**(Default) and **mceliece348864f**. (Edit **\_F_PARAM\_** in file src/run_config.h for the **f**-parameter.)
 - **u32_n4608_t96**: **mceliecen660896**(Default) and **mceliece460896f**. 
 - **u32_n6688_t128**: **mceliecen6688128**(Default) and **mceliece6688128f**. 
 - **u32_n8192_t128**: **mceliecen8192128**(Default) and **mceliece8192128f**. 
@@ -48,14 +48,15 @@ The code is tested and benchmarked on the stm32f4-discovery with PQM4.
 The followings are the instructions for testing:
 
 
-- Download/Install pqm4. https://github.com/mupq/pqm4
+- Download/Install pqm4. https://github.com/mupq/pqm4  
+  [Caution] For users do not use pqm4: Since the code relies on the predefined macro **STM32F4** on pqm4 for conditional compilation, please add the **STM32F4** macro in src/run_config.h to enable the M4 assembly code.
 
 
 - Setup your stm32f4-discovery device (connect USB, setup terminal, etc.)
 
 
 - Execute 'pyton3 copy_files_to_pqm4.py *path_to_pqm4*' for copying files to **PQM4** directory.  
-  It will build following directories under pqm4/crypto_kem/ for benchmarking various functionalities.
+  It will build following directories under pqm4/crypto_kem/xxx for benchmarking various functionalities.
   1. mc348864fkeygen/ : for benchmarking the key-generation of **mceliece348864f**. The PK is stored in the flash disk.
   2. mc348864keygen/ : for benchmarking the key-generation of **mceliece348864**. The PK is stored in the flash disk.
   3. mc348864/ : for benchmarking encapsulation and decapsulation of **mceliece348864** with test key pairs.
@@ -73,19 +74,19 @@ The followings are the instructions for testing:
     'mkdir ~/pqm4/crypto_kem/mc348864'  
     'cp u32_n3488_t64/src/* ~/pqm4/crypto_kem/mc348864keygen/'  
     'cp pqm4tester/ld_script_for_flash.ld ~/pqm4/ldscripts/crypto_kem_mc348864keygen.ld' <-- loader script for enabling flash disk  
-    Note the xxxx in crypto_kem_xxx.ld should be the same as the name of directory pqm4/crypto_kem/xxxx .   
+    Caution: the xxxx in crypto_kem_xxxx.ld should be the same as the name of directory pqm4/crypto_kem/xxxx .   
 
     b). Testing with test keypair  
     'mkdir ~/pqm4/crypto_kem/mc348864'  
     'cp u32_n3488_t64/src/* ~/pqm4/crypto_kem/mc348864/'  
-    'cp u32_n3488_t64/testkeypair/* ~/pqm4/crypto_kem/mc348864/'   <-- test key pair
-     Edit 'pqm4/crypto_kem/mc348864/run_config.h'. Turn off the *_PK_IN_FLASH_* macro.
+    'cp u32_n3488_t64/testkeypair/* ~/pqm4/crypto_kem/mc348864/'   <-- test key pair  
+     Edit 'pqm4/crypto_kem/mc348864/run_config.h'. Remove the **\_PK_IN_FLASH\_** macro.
 
     c). Testing with test keypair  
     'mkdir ~/pqm4/crypto_kem/mc348864keygen'  
     'cp u32_n3488_t64/src/* ~/pqm4/crypto_kem/mc348864keygen/'  
-    'cp u32_n3488_t64/stm32f4flashtool/* ~/pqm4/crypto_kem/mc348864keygen/'   <-- flash tools for stm32f4-discovery
-    'cp u32_n3488_t64/stm32f4flashtool/ld_script_for_flash.ld ~/pqm4/ldscripts/mc348864keygen.ld'  <-- link script for allocating flash disk
+    'cp u32_n3488_t64/stm32f4flashtool/* ~/pqm4/crypto_kem/mc348864keygen/'   <-- flash tools for stm32f4-discovery  
+    'cp u32_n3488_t64/stm32f4flashtool/ld_script_for_flash.ld ~/pqm4/ldscripts/mc348864keygen.ld'  <-- linker script for allocating flash disk
 
 
 - Generate binary(.bin) file for flashing  wrt various benchmarking scenarios:  
